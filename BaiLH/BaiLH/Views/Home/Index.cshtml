@@ -1,0 +1,93 @@
+﻿@model BaiLH.Models.Danhsach
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+        }
+    </style>
+
+
+    <script src="~/Content/css"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').on('click', '.checkmobile', function () {
+                var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+                var mobile = $('.mobile').val();
+
+                if (mobile !== '') {
+                    if (vnf_regex.test(mobile) == false) {
+                        alert('Số điện thoại của bạn không đúng định dạng!');
+                    } else {
+                        alert('Số điện thoại của bạn hợp lệ!');
+                    }
+                } else {
+                    alert('Bạn chưa điền số điện thoại!');
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <meta name="viewport" content="width=device-width" />
+
+    <!--ajax ko can load lai trang-->
+    @using (Ajax.BeginForm("LoadAjax", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "KetQua", InsertionMode = InsertionMode.InsertAfter, LoadingElementId = "loading" }))
+    {
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--div class="modal-header"-->
+                <h1 class="display-3">Liên Lạc</h1>
+
+                
+                <form role="form" id="frmSave" class="m-2 p-3 bg-light">
+                    <!--method="post" -->
+                    @foreach (var item in Model.ListLH)
+                    {
+                        <div class="form-group">
+
+                            <thead> <tr><th>Tên</th></tr></thead>
+
+                            <!--input class="form-control" type="text" name="name" style="right:60px;" value="" />-->
+                            <h1>@item.Ten</h1>
+                        </div>
+                        <br>
+                        <div>
+                            <thead><tr><th>Số điện thoại</th></tr></thead>
+
+                            <!--input class="form-control" type="text" name="mobile" value="" />-->
+                            <h2>@item.Phone</h2>
+                            <br>
+                        </div>
+                    }
+                    <!--input type="submit" id="save" class="btn btn-default checkmobile" value="Gửi" style="background-color:red" />-->
+                </form>
+
+
+                    <div id="KetQua" style="height:150px;"></div>
+                
+
+            </div>
+        </div>
+    }
+
+
+</body>
+</html>
